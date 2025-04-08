@@ -1,9 +1,8 @@
-import java.io.File
+ import java.io.File
 
 val alfabeto = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 val balaoazul = "\u001b[34mϙ\u001b[0m"
 val balaovermelho = "\u001b[31mϙ\u001b[0m"
-
 fun validaTabuleiro(numlinhas: Int? = null,numcolunas: Int? = null):Boolean {
     if (numlinhas in 5..7 && numcolunas in 6..8){
         when{
@@ -16,7 +15,6 @@ fun validaTabuleiro(numlinhas: Int? = null,numcolunas: Int? = null):Boolean {
         return false
     }
 }
-
 fun processaColuna(numcolunas: Int, letraColuna: String?): Int? {
     if (letraColuna != null) {
         if (letraColuna in "A".."Z") {
@@ -36,7 +34,6 @@ fun processaColuna(numcolunas: Int, letraColuna: String?): Int? {
         return null
     }
 }
-
 fun nomeValido(nome: String):Boolean{
     var letrasnome = 0
     val tamanhonome = nome.length
@@ -56,7 +53,6 @@ fun nomeValido(nome: String):Boolean{
     }
     return true
 }
-
 fun criaTopoTabuleiro(coluna: Int): String{
     var teto = ""
     val tracos = "════"
@@ -69,7 +65,6 @@ fun criaTopoTabuleiro(coluna: Int): String{
     val topo = "╔$teto╗"
     return topo
 }
-
 fun criaLegendaHorizontal(coluna: Int): String{
     var count = 0
     var legenda = "  "
@@ -81,7 +76,6 @@ fun criaLegendaHorizontal(coluna: Int): String{
     val ultLetra = alfabeto[count] + "  "
     return legenda + ultLetra
 }
-
 fun criaTabuleiro(tabuleiro: Array<Array<String?>>, comLegenda: Boolean = true): String {
     val numLinhas = tabuleiro.size
     val numColunas = tabuleiro[0].size
@@ -105,12 +99,10 @@ fun criaTabuleiro(tabuleiro: Array<Array<String?>>, comLegenda: Boolean = true):
     resultado = topo + "\n" + linhaTabuleiro + legenda
     return resultado
 }
-
 fun criaTabuleiroVazio(linhas: Int, colunas: Int): Array<Array<String?>> {
     val tabuleiro = Array(linhas) { Array<String?>(colunas) { null } }
     return tabuleiro
 }
-
 fun contaBaloesLinha(tabuleiro: Array<Array<String?>>, linha: Int): Int {
     var contador = 0
     for (coluna in tabuleiro[linha]) {
@@ -120,7 +112,6 @@ fun contaBaloesLinha(tabuleiro: Array<Array<String?>>, linha: Int): Int {
     }
     return contador
 }
-
 fun contaBaloesColuna(tabuleiro: Array<Array<String?>>, coluna: Int): Int {
     var contador = 0
     for (linha in tabuleiro) {
@@ -130,27 +121,21 @@ fun contaBaloesColuna(tabuleiro: Array<Array<String?>>, coluna: Int): Int {
     }
     return contador
 }
-
 fun colocaBalao(tabuleiro: Array<Array<String?>>, coluna: Int, humano: Boolean): Boolean {
     var linha = 0
-    var colunaMaisDireita = tabuleiro[0].size
-
     while (linha <= tabuleiro.size - 1) {
-        if (tabuleiro[linha][colunaMaisDireita] == null) {
+        if (tabuleiro[linha][coluna] == null) {
             if (humano){
                 tabuleiro[linha][coluna] = balaovermelho
             } else{
                 tabuleiro[linha][coluna] = balaoazul
             }
             return true
-        }else{
-            tabuleiro[linha][coluna] = null
         }
         linha++
     }
     return false
 }
-
 fun jogadaNormalComputador(tabuleiro: Array<Array<String?>>): Int {
     var linhas = 0
     var colunas = 0
@@ -169,7 +154,6 @@ fun jogadaNormalComputador(tabuleiro: Array<Array<String?>>): Int {
     } while (posicaovazia == -1 && linhas < tabuleiro.size)
     return posicaovazia
 }
-
 fun eVitoriaHorizontal(tabuleiro: Array<Array<String?>>): Boolean {
     for (linha in 0..tabuleiro.size - 1) {
         for (coluna in 0..tabuleiro[linha].size - 4) {
@@ -207,7 +191,6 @@ fun eVitoriaVertical(tabuleiro: Array<Array<String?>>): Boolean {
     }
     return false
 }
-
 fun eVitoriaDiagonal(tabuleiro: Array<Array<String?>>): Boolean {
     for (linha in 0..< tabuleiro.size - 3) {
         for (coluna in 0..< tabuleiro[0].size - 3) {
@@ -239,7 +222,6 @@ fun eVitoriaDiagonal(tabuleiro: Array<Array<String?>>): Boolean {
     }
     return false
 }
-
 fun ganhouJogo(tabuleiro: Array<Array<String?>>): Boolean{
     if (eVitoriaHorizontal(tabuleiro) == true || eVitoriaVertical(tabuleiro) == true || eVitoriaDiagonal(tabuleiro) == true){
         return true
@@ -247,27 +229,7 @@ fun ganhouJogo(tabuleiro: Array<Array<String?>>): Boolean{
         return false
     }
 }
-
 fun eEmpate(tabuleiro: Array<Array<String?>>): Boolean {
-    var linhas = tabuleiro.size
-    var colunas = tabuleiro[0].size
-    var count = 0
-
-    if(linhas > colunas){
-        return true
-    }
-
-    for(x in tabuleiro){
-        for(y in x){
-            if(y == balaoazul){
-                count++
-                if(count == 5){
-                    return true
-                }
-            }
-        }
-    }
-
     for (linha in tabuleiro) {
         for (coluna in linha) {
             if (coluna == null) {
@@ -277,7 +239,6 @@ fun eEmpate(tabuleiro: Array<Array<String?>>): Boolean {
     }
     return true
 }
-
 fun explodeBalao(tabuleiro: Array<Array<String?>>, coordenadas: Pair<Int, Int>): Boolean {
     val linha = coordenadas.first
     val coluna = coordenadas.second
@@ -292,7 +253,6 @@ fun explodeBalao(tabuleiro: Array<Array<String?>>, coordenadas: Pair<Int, Int>):
 
     return true
 }
-
 fun jogadaExplodirComputador(tabuleiro: Array<Array<String?>>): Pair<Int, Int> {
     val linhas = tabuleiro.size
     val colunas = tabuleiro[0].size
@@ -309,7 +269,6 @@ fun jogadaExplodirComputador(tabuleiro: Array<Array<String?>>): Pair<Int, Int> {
             }
         }
     }
-
     for (y in 0 until colunas) {
         var count = 0
         for (x in 0 until linhas) {
@@ -323,7 +282,6 @@ fun jogadaExplodirComputador(tabuleiro: Array<Array<String?>>): Pair<Int, Int> {
             }
         }
     }
-
     val contagemPorColuna = IntArray(tabuleiro[0].size)
     for (linha in tabuleiro) {
         var colunaAtual = 0
@@ -334,7 +292,6 @@ fun jogadaExplodirComputador(tabuleiro: Array<Array<String?>>): Pair<Int, Int> {
             colunaAtual++
         }
     }
-
     var menor = contagemPorColuna[0]
     var atual = 0
     var posicao = 0
@@ -345,7 +302,6 @@ fun jogadaExplodirComputador(tabuleiro: Array<Array<String?>>): Pair<Int, Int> {
         }
         atual++
     }
-
     var linhaatual = 0
     for (linha in tabuleiro) {
         val elemento = linha[posicao]
@@ -376,6 +332,7 @@ fun leJogo(nomedoficheiro: String): Pair<String, Array<Array<String?>>> {
     return Pair(jogador, tabuleiro)
 }
 
+
 fun gravaJogo(nomedoficheiro: String, tabuleiro: Array<Array<String?>>, nomedojogador: String) {
     val file = File(nomedoficheiro)
     val writer = file.printWriter()
@@ -399,6 +356,7 @@ fun gravaJogo(nomedoficheiro: String, tabuleiro: Array<Array<String?>>, nomedojo
     writer.close()
 }
 
+
 fun main() {
     println("")
     println("""Bem-vindo ao jogo "4 Baloes em Linha"!""")
@@ -415,7 +373,7 @@ fun main() {
         var tamanholetracoluna = ""
         do {
             val verificaropcao = readln().toIntOrNull()
-            if ( verificaropcao !in 0..9 || verificaropcao == null) {
+            if (verificaropcao !in 0..3 || verificaropcao == null) {
                 println("Opcao invalida. Por favor, tente novamente.")
             }else if (verificaropcao == 2 && comecoujogo == true){
                 println("Introduza o nome do ficheiro (ex: jogo.txt)")
@@ -427,14 +385,8 @@ fun main() {
             }else {
                 opcao = verificaropcao
             }
-        } while (verificaropcao !in 0..9 || verificaropcao == 2)
-        if (opcao == 0 || opcao == 9) {
-            println("Prima enter para sair")
-            var sairAgora = readln().toIntOrNull()
-            if(sairAgora == null){
-                println("A sair...")
-                return
-            }
+        } while (verificaropcao !in 0..3 || verificaropcao == 2)
+        if (opcao == 0) {
             println("A sair...")
             return
         } else {
